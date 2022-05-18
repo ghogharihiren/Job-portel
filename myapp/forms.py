@@ -14,14 +14,16 @@ class RegisterForm(UserCreationForm):
     )
     class Meta:
         model=User
-        fields=['first_name','last_name','username','email','mobile','gender']
+        fields=['first_name','last_name','username','email','mobile','gender','company_name']
         widgets = {
             'gender': forms.Select(attrs={'class':'form-control'}),
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
             'last_name': forms.TextInput(attrs={'class':'form-control'}),
             'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.TextInput(attrs={'class':'form-control'}),
-            'mobile': forms.TextInput(attrs={'class':'form-control'}),    
+            'mobile': forms.TextInput(attrs={'class':'form-control'}),  
+            'company_name': forms.TextInput(attrs={'class':'form-control'}),
+              
         }
 
 class Userlogin(AuthenticationForm):
@@ -31,7 +33,7 @@ class Userlogin(AuthenticationForm):
 class Editprofile(forms.ModelForm):
     class Meta:
         model=User
-        fields=['first_name','last_name','username','email','mobile']    
+        fields=['first_name','last_name','username','email','mobile','company_name']    
         
         widgets = {
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
@@ -39,16 +41,17 @@ class Editprofile(forms.ModelForm):
             'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.TextInput(attrs={'class':'form-control'}),
             'mobile': forms.TextInput(attrs={'class':'form-control'}), 
+            'company_name': forms.TextInput(attrs={'class':'form-control'}),
+            
                 
         }
         
 class AddpostForm(forms.ModelForm):
     class Meta:
         model=JobPost
-        fields=['company_name','position','salary','addres','categories','type','job_description','experience','slot']   
+        fields=['position','salary','addres','categories','type','city','job_description','experience','slot']   
         
         widgets = {
-            'company_name': forms.TextInput(attrs={'class':'form-control'}),
             'position': forms.TextInput(attrs={'class':'form-control'}),
             'salary': forms.TextInput(attrs={'class':'form-control'}),
             'addres': forms.Textarea(attrs={'class':'form-control'}),
@@ -57,16 +60,17 @@ class AddpostForm(forms.ModelForm):
             'job_description': forms.Textarea(attrs={'class':'form-control'}),    
             'slot': forms.NumberInput(attrs={'class':'form-control'}),    
             'type': forms.Select(attrs={'class':'form-control'}),    
+            'city': forms.TextInput(attrs={'class':'form-control'}),
+            
             
                
         }  
 class EditpostForm(forms.ModelForm):
     class Meta:
         model=JobPost
-        fields=['company_name','position','salary','addres','categories','type','job_description','experience','slot']   
+        fields=['position','salary','addres','categories','city','type','job_description','experience','slot']   
         
         widgets = {
-            'company_name': forms.TextInput(attrs={'class':'form-control'}),
             'position': forms.TextInput(attrs={'class':'form-control'}),
             'salary': forms.TextInput(attrs={'class':'form-control'}),
             'addres': forms.Textarea(attrs={'class':'form-control'}),
@@ -75,7 +79,23 @@ class EditpostForm(forms.ModelForm):
             'job_description': forms.Textarea(attrs={'class':'form-control'}),    
             'slot': forms.NumberInput(attrs={'class':'form-control'}),    
             'type': forms.Select(attrs={'class':'form-control'}),    
-            
-               
+            'city': forms.TextInput(attrs={'class':'form-control'}),   
         }  
+             
+             
+class ApplicationForm(forms.ModelForm):
+    class Meta:
+        model=Application
+        fields=['name','email','gender','mobile','Bod','resume']   
+        widgets = {
+
+            'gender': forms.Select(attrs={'class':'form-control'}), 
+            'name': forms.TextInput(attrs={'class':'form-control'}),  
+            'email':forms.EmailInput(attrs={'class':'form-control'}),
+            'mobile':forms.TextInput(attrs={'class':'form-control'}), 
+            'Bod':forms.DateInput(format=('%m/%d/%Y'),attrs={'class':'form-control','type': 'date'}),
+            'resume':forms.FileInput(attrs={'class':'form-control'}),
+        }  
+                       
+             
                    

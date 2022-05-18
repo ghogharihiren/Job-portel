@@ -1,0 +1,59 @@
+
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+<title>job-list</title>
+{% endblock %}
+
+
+
+{% block content %}
+
+ 
+
+
+
+
+
+<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      <th>Company Name</th>
+      <th>Title</th>
+      <th>Vacancy</th>
+      <th>Salary</th>
+      <th>City</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for post in post %}
+    <tr>
+      <td>
+        <div class="d-flex align-items-center">
+          <div class="ms-3">
+            <p class="fw-bold mb-1">{{post.HR.company_name}}</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">{{post.position}}</p>
+        <p class="text-muted mb-0">{{post.categories}}</p>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">{{post.slot}}</p>
+      </td>
+      <td>
+        <p class="fw-bold mb-1">RS {{post.salary}}</p>
+      </td>
+      <td>{{post.city}}</td>
+      <td>
+        <a href="{% url 'view-job' post.id %}" class="nav-item nav-link active">Apply</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

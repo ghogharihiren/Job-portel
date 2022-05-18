@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import datetime
 
 
 
@@ -7,7 +8,8 @@ class User(AbstractUser):
     gender= (('male','Male'), ('female','Female'))
     email=models.EmailField(unique=True)
     gender=models.CharField(max_length=10,choices=gender,null=True,blank=True)
-    mobile=models.CharField(max_length=15)
+    mobile=models.CharField(max_length=15,null=True,blank=True)
+    company_name=models.CharField(max_length=100,null=True,blank=True)
 
   
     
@@ -27,7 +29,6 @@ class JobPost(models.Model):
         ('information technology','Information technology')
     )
     HR=models.ForeignKey(User,on_delete=models.CASCADE)
-    company_name=models.CharField(max_length=100)
     position=models.CharField(max_length=100)
     salary=models.CharField(max_length=100)
     addres=models.TextField(max_length=200)
@@ -36,6 +37,8 @@ class JobPost(models.Model):
     experience=models.CharField(max_length=50)
     slot=models.IntegerField()
     type=models.CharField(max_length=25,choices=time)
+    city=models.CharField(max_length=20)
+    time=models.DateField(default=datetime.date.today)
     def __str__(self):
         return self.categories
     
@@ -48,7 +51,7 @@ class Application(models.Model):
     Bod=models.DateField(max_length=20)
     mobile=models.CharField(max_length=15)
     resume=models.FileField(upload_to='resume')
-    comany_name=models.ForeignKey(JobPost,on_delete=models.CASCADE)
+    company_name=models.ForeignKey(JobPost,on_delete=models.CASCADE)
     
     def __str__(self):
         return self.email

@@ -59,26 +59,25 @@
                     <a href="{% url 'profile' %}" class="nav-item nav-link active">Profile</a>
                     <a href="{% url 'add-job' %}" class="nav-item nav-link active">Add-Job</a>
                     <a href="{% url 'mypost' %}" class="nav-item nav-link active">My-Jobpost</a>
-                    <a href="" class="nav-item nav-link active">Employ-List</a>
+                    <a href="{% url 'job-application'%}" class="nav-item nav-link active">Employ-List</a>
                     <a href="{% url 'logout' %}" class="nav-item nav-link active">Logout</a>
                     {% else %}
                     <a href="" class="nav-item nav-link active">Upload-Resume</a>
-                    <a href="" class="nav-item nav-link active">HR-Login</a>
+                    <a href="{% url 'company-list' %}" class="nav-item nav-link active">Company-List</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{% url 'marketing' %}" class="dropdown-item">Marketing</a>
-                            <a href="{% url 'customer-service' %}" class="dropdown-item">customer service</a>
-                            <a href="{% url 'human-resource' %}" class="dropdown-item">human resource</a>
-                            <a href="{% url 'project-management' %}" class="dropdown-item">project management</a>
-                            <a href="job-list.html" class="dropdown-item">business devlopment</a>
-                            <a href="job-list.html" class="dropdown-item">sales & communication</a>
-                            <a href="job-list.html" class="dropdown-item">teaching & education</a>
-                            <a href="job-list.html" class="dropdown-item">information technology</a>
-
-
+                            <a href="{% url 'jobs' 1 %}" class="dropdown-item">Marketing</a>
+                            <a href="{% url 'jobs' 2 %}" class="dropdown-item">customer service</a>
+                            <a href="{% url 'jobs' 3 %}" class="dropdown-item">human resource</a>
+                            <a href="{% url 'jobs' 4 %}" class="dropdown-item">project management</a>
+                            <a href="{% url 'jobs' 5 %}" class="dropdown-item">business devlopment</a>
+                            <a href="{% url 'jobs' 6 %}" class="dropdown-item">sales & communication</a>
+                            <a href="{% url 'jobs' 7 %}" class="dropdown-item">teaching & education</a>
+                            <a href="{% url 'jobs' 8 %}" class="dropdown-item">information technology</a>
                         </div>
                     </div>
+                    <a href="{% url 'login' %}" class="nav-item nav-link active">HR-Login</a>
                     {% endif %}
                    
                 </div>

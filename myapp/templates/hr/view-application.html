@@ -1,0 +1,76 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+<title>application</title>
+{% endblock %}
+
+
+
+{% block content %}
+
+<section class="section appoinment">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-10 col-md-10 ">
+				<div class="appoinment-wrap mt-5 mt-lg-0">
+					<h2 class="mb-2 title-color">Application</h2>
+                    <div class="row">
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input name="slot"  disabled id="date" type="text" class="form-control" value={{app.name}}>
+                               
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input name="slot"  disabled id="date" type="text" class="form-control" value="{{app.email}}">
+                            </div>
+                        </div>
+
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>mobile</label>
+                                <input name="slot"  disabled  id="date" type="text" class="form-control" value="{{app.mobile}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Date of birth</label>
+                                <input name="slot"  disabled  id="time" type="text" class="form-control"value="{{app.Bod}}">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Categories</label>
+                                <input name="slot"  disabled  id="name" type="text" class="form-control" value="{{app.company_name.categories}}">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Postion</label>
+                                <input name="slot"  disabled s id="phone" type="text" class="form-control"  value="{{app.company_name.position}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Download Resume:</label>
+                            <td><a href="{{app.resume.url}}" download>{{app.resume}}</a></td>                    
+                        </div>
+                    </div>     
+
+                    
+                </form>
+            </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}

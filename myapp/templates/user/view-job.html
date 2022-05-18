@@ -1,0 +1,116 @@
+
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Apply</title>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="container-xxl py-5 bg-dark page-header mb-5">
+    <div class="container my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-uppercase">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Header End -->
+
+
+<!-- Job Detail Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row gy-5 gx-4">
+            <div class="col-lg-8">
+                <div class="mb-5">
+                    <h4 class="mb-3">Job description</h4>
+                    <p>{{post.job_description}}</p>
+                       
+                </div>
+
+                <div class="">
+                    <h4 class="mb-4">Apply For The Job</h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="pl-lg-4">
+							<div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">Name</label>
+                                        {{app.name}}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Email</label>
+                                        {{app.email}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">Mobile</label>
+                                        {{app.mobile}}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Gender</label>
+                                        {{app.gender}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-first-name">date of Birth</label>
+                                        {{app.Bod}}
+                                    </div>
+                                </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-last-name">Resume</label>
+                                            {{app.resume}}
+                                        </div>
+                                    </div>
+                            </div>
+                           
+                        </div>
+                        <hr class="my-4" />
+                        <!-- Address -->
+                       
+                        <button class="btn btn-primary" type="submit" style="margin-left: 20px;">Apply</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+                    <h4 class="mb-4">Job Summery</h4>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Published On:{{post.time}}</p>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: {{post.slot}}</p>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: {{post.type}}</p>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: Rs {{post.salary}}</p>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>City:{{post.city}}</p>
+                </div>
+                <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+                    <h4 class="mb-4">Company Detail</h4>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Name:{{post.HR.company_name}}</p>
+                    <p><i class="fa fa-angle-right text-primary me-2"></i>Address:{{post.addres}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

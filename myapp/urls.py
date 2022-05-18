@@ -12,11 +12,18 @@ urlpatterns = [
     path('mypost/',views.my_post,name='mypost'),
     path('delete/<int:pk>',views.delete,name='delete'),
     path('edit-post/<int:pk>',views.edit_post,name='edit-post'),
+    path('job-application/',views.job_application,name='job-application'),
+    path('view-application/<int:pk>',views.view_application,name='view-application'),
+    path('delete-application/<int:pk>',views.delete_application,name='delete-application'),
+    
+    
 #--------------------------------Jobseekers-----------------------------------------------------------------   
-    path('marketing',views.marketing,name='marketing'),
-    path('customer-service',views.customer_service,name='customer-service'),
-    path('human-resource',views.human_resource,name='human-resource'),
-    path('project-management',views.project_management,name='project-management'),
+    path('jobs/<str:id>',views.jobs,name='jobs'),
+    path('view-job/<int:pk>',views.view_job,name='view-job'),
+    path('company-list',views.company_list,name='company-list')
+   
+    
+    
     
     
     
