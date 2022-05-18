@@ -60,7 +60,6 @@
                     <a href="{% url 'profile' %}" class="nav-item nav-link active">Profile</a>
                     <a href="{% url 'add-job' %}" class="nav-item nav-link active">Add-Job</a>
                     <a href="{% url 'mypost' %}" class="nav-item nav-link active">My-Jobpost</a>
-                    <a href="{% url 'job-application'%}" class="nav-item nav-link active">Employ-List</a>
                     <a href="{% url 'logout' %}" class="nav-item nav-link active">Logout</a>
                     {% else %}
                     <a href="{% url 'register' %}" class="nav-item nav-link active">Add-HR</a>
@@ -68,10 +67,11 @@
                     <a href="{% url 'logout' %}" class="nav-item nav-link active">Logout</a>
                     {% endif %}
                     {% else %}
-                    <a href="{% url 'company-list' %}" class="nav-item nav-link active">Company-List</a>
+                    
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
                         <div class="dropdown-menu rounded-0 m-0">
+                            <a href="{% url 'jobs' 0 %}" class="dropdown-item">all</a>
                             <a href="{% url 'jobs' 1 %}" class="dropdown-item">Marketing</a>
                             <a href="{% url 'jobs' 2 %}" class="dropdown-item">customer service</a>
                             <a href="{% url 'jobs' 3 %}" class="dropdown-item">human resource</a>

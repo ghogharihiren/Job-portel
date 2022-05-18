@@ -1,0 +1,4 @@
+ Open a file in read mode which contains a string.
+ Use for loop to read each line from the text file.
+ Again use for loop to read each word from the line splitted by ‘ ‘.
+ Display each word from each line in the text file.

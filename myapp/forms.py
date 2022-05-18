@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import*
-from django.contrib.auth import get_user_model
-#User = get_user_model()
+
 
 # class RegisterForm(UserCreationForm):
     
@@ -38,9 +37,8 @@ class RegisterForm(UserCreationForm):
     )
     class Meta:
         model=User
-        fields=['username','email','mobile','role']
+        fields=['username','email','mobile']
         widgets = {
-            'role': forms.Select(attrs={'class':'form-control'}),
             'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.TextInput(attrs={'class':'form-control'}),
             'mobile': forms.TextInput(attrs={'class':'form-control'}),  
@@ -52,9 +50,8 @@ class EditHrForm(forms.ModelForm):
     
     class Meta:
         model=User
-        fields=['username','email','mobile','role']
+        fields=['username','email','mobile']
         widgets = {
-            'role': forms.Select(attrs={'class':'form-control'}),
             'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.TextInput(attrs={'class':'form-control'}),
             'mobile': forms.TextInput(attrs={'class':'form-control'}),  

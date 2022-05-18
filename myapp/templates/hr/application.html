@@ -1,14 +1,14 @@
-
 {% extends 'header.html' %}
 {% load static %}
 
 {% block title %}
-<title>company-list</title>
+<title>application-list</title>
 {% endblock %}
 
 
 
 {% block content %}
+
 
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -192,7 +192,7 @@ $(document).ready(function(){
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-5">
-                        <h2>Company<b>List</b></h2>
+                        <h2><b></b></h2>
                     
                         {% for msg in messages %}
                         <p style="color: red;">{{msg}}</p>
@@ -207,27 +207,32 @@ $(document).ready(function(){
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>City</th>						
-                        <th>Vacancy</th>
+                        <th>Email</th>						
+                        <th>mobile</th>
                         <th>categories</th>
+                        <th>position</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for user in user %}
-                    {% if user.HR.company_name is not none %}
+                    {% for app in app %}
                     <tr>
-                        <td>{{user.HR.company_name}}</td>
-                        <td><a href="#">{{user.city}}</a></td>
-                        <td>{{user.slot}}</td>  
-                        <td>{{user.categories}}</td>                    
+                        <td>{{app.name}}</td>
+                        <td><a href="#">{{user.email}}</a></td>
+                        <td>{{app.mobile}}</td>  
+                        <td>{{app.company_name.categories}}</td> 
+                        <td>{{app.company_name.position}}</td> 
+
+                                      
+
 
                         <td>
-                          <a href="{% url 'view-job' user.id %}" class="nav-item nav-link active">details</a> 
+                          <a href="{% url 'view-application' app.id%}" class="nav-item nav-link active">view</a> 
+                          <a href="" class="nav-item nav-link active"></a> 
+
                         </td>
     
                     </tr>
-                    {% endif %}
                     {% endfor %}
                 
                     
@@ -237,5 +242,6 @@ $(document).ready(function(){
         </div>
     </div>
 </div>      
+
 
 {% endblock %}

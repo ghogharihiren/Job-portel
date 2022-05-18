@@ -21,6 +21,8 @@
         <th>Salary</th>
         <th>EDIT</th>
         <th>DELETE</th>
+        <th>view-application</th>
+
 
       </tr>
     </thead>
@@ -47,6 +49,9 @@
         <td>
             <a href="{% url 'delete' post.id %}" class="nav-item nav-link active">DELETE</a>
         </td>
+        <td>
+          <a href="{% url 'application' post.id%}" class="nav-item nav-link active">Application</a>
+      </td>
       </tr>
       {% endfor %}
      

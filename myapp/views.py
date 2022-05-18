@@ -3,13 +3,16 @@ from .forms import*
 from django.contrib.auth import authenticate,login,logout,update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+import random
+from django.contrib.auth.hashers import make_password
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 def index(request):
     return render(request,'index.html')
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def user_register(request):
     if request.user.role == 'admin':
         form=RegisterForm()
@@ -18,23 +21,23 @@ def user_register(request):
             if form1.is_valid():
                 form1.save()
                 messages.success(request,'your account created')
-                return redirect('login')
+                return redirect('hr-list')
             messages.info(request,'Enate the valid data')
             return render(request,'admin/register.html',{'form':form})
         return render(request,'admin/register.html',{'form':form})
     return render(request,'index.html')
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def hr_list(request):
     if request.user.role == 'admin':
-        user=User.objects.filter(role='hr')
+        user=User.objects.filter(role='hr')[::-1]
         return render(request,'admin/hr-list.html',{'user':user})
     return render(request,'index.html')
     
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def edit_hr(request,pk):
     if request.user.role == 'admin':
         user=User.objects.get(id=pk)
@@ -52,7 +55,7 @@ def edit_hr(request,pk):
     return render(request,'index.html')
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def delete_hr(request,pk):
     if request.user.role == 'admin':
         user=User.objects.get(id=pk)
@@ -91,19 +94,40 @@ def user_login(request):
                     return redirect('index')
                 else:
                     messages.info(request,'Enter correct username or password')
-                    return render(request,'hr/login.html',{'form':form1})
+                    return render(request,'login.html',{'form':form1})
             messages.info(request,'Enter correct username or password')
-            return render(request,'hr/login.html',{'form':form1})
-        return render(request,'hr/login.html',{'form':form1})
+            return render(request,'login.html',{'form':form1})
+        return render(request,'login.html',{'form':form1})
+
+def forgot_password(request):    
+    if request.method =="POST":
+       try:
+        user=User.objects.get(email=request.POST['email'])
+        password = ''.join(random.choices('qwyertovghlk34579385',k=9))
+        subject="Rest Password"
+        message = f"""Hello {user.username},Your New password is {password}"""
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [request.POST['email'],]
+        send_mail( subject, message, email_from, recipient_list )
+        user.password=make_password(password)
+        user.save()
+        messages.success(request,'New password send in your email')
+        return redirect('login')
+       except:
+           messages.info(request,'Enter the valid email addres')
+           return render(request,'hr/forgot-password.html')   
+           
+    return render(request,'hr/forgot-password.html')   
+            
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def user_logout(request):
     logout(request)
     return redirect('login')   
 
  
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def edit_profile(request):
     form=Editprofile(instance=request.user)
     if request.method == "POST":
@@ -117,7 +141,7 @@ def edit_profile(request):
     return render(request,'hr/profile.html',{'form':form})    
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def add_job(request):
     form=AddpostForm()
     if request.method == "POST":
@@ -134,20 +158,20 @@ def add_job(request):
     return render(request,'hr/add-job.html',{'form':form})
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def my_post(request):
     post=JobPost.objects.filter(HR=request.user)
     return render(request,'hr/mypost.html',{'post':post})
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def delete(request,pk):
     post=JobPost.objects.get(id=pk)
     post.delete()
     return redirect('mypost')
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def edit_post(request,pk):
     post=JobPost.objects.get(id=pk)
     form=EditpostForm(instance=post)
@@ -163,19 +187,20 @@ def edit_post(request,pk):
     return render(request,'hr/edit-post.html',{'form':form})
 
 
-@login_required(login_url='/hr/login/')
-def job_application(request):
-    app=Application.objects.all()
-    return render(request,'hr/job-application.html',{'app':app})   
+@login_required(login_url='/login/')
+def application(request,pk):
+    post=JobPost.objects.get(id=pk)
+    app=Application.objects.filter(company_name=post)
+    return render(request,'hr/application.html',{'app':app})   
 
   
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def view_application(request,pk):
     app=Application.objects.get(id=pk)
     return render(request,'hr/view-application.html',{'app':app})     
 
 
-@login_required(login_url='/hr/login/')
+@login_required(login_url='/login/')
 def delete_application(request,pk):
     app=Application.objects.get(id=pk)
     app.delete()
@@ -214,7 +239,10 @@ def jobs(request,id):
     elif id =='8': 
         post=JobPost.objects.filter(categories='information technology')
         return render(request,'user/jobs.html',{'post':post}) 
-    
+    else:
+        post=JobPost.objects.all()
+        return render(request,'user/jobs.html',{'post':post}) 
+        
 def view_job(request,pk):
     post=JobPost.objects.get(id=pk)
     app=ApplicationForm()
@@ -229,8 +257,5 @@ def view_job(request,pk):
             messages.info(request,'Enter the valid data')
             return render(request,'user/view-job.html',{'app':app,'post':post})        
     return render(request,'user/view-job.html',{'app':app,'post':post})
-    
-def company_list(request):
-    user=JobPost.objects.all()
-    return render(request,'user/company-list.html',{'user':user}) 
+ 
 
