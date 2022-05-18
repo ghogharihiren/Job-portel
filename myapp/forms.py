@@ -4,6 +4,30 @@ from .models import*
 from django.contrib.auth import get_user_model
 #User = get_user_model()
 
+# class RegisterForm(UserCreationForm):
+    
+#     password1 = forms.CharField(
+#         widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'align':'center'}),
+#     )
+#     password2 = forms.CharField(
+#         widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'align':'center'}),
+#     )
+#     class Meta:
+#         model=User
+#         fields=['first_name','last_name','username','email','mobile','gender','company_name']
+#         widgets = {
+#             'gender': forms.Select(attrs={'class':'form-control'}),
+#             'first_name': forms.TextInput(attrs={'class':'form-control'}),
+#             'last_name': forms.TextInput(attrs={'class':'form-control'}),
+#             'username': forms.TextInput(attrs={'class':'form-control'}),
+#             'email': forms.TextInput(attrs={'class':'form-control'}),
+#             'mobile': forms.TextInput(attrs={'class':'form-control'}),  
+#             'company_name': forms.TextInput(attrs={'class':'form-control'}),
+              
+#         }
+
+
+
 class RegisterForm(UserCreationForm):
     
     password1 = forms.CharField(
@@ -14,18 +38,30 @@ class RegisterForm(UserCreationForm):
     )
     class Meta:
         model=User
-        fields=['first_name','last_name','username','email','mobile','gender','company_name']
+        fields=['username','email','mobile','role']
         widgets = {
-            'gender': forms.Select(attrs={'class':'form-control'}),
-            'first_name': forms.TextInput(attrs={'class':'form-control'}),
-            'last_name': forms.TextInput(attrs={'class':'form-control'}),
+            'role': forms.Select(attrs={'class':'form-control'}),
             'username': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.TextInput(attrs={'class':'form-control'}),
             'mobile': forms.TextInput(attrs={'class':'form-control'}),  
-            'company_name': forms.TextInput(attrs={'class':'form-control'}),
               
         }
+        
 
+class EditHrForm(forms.ModelForm):
+    
+    class Meta:
+        model=User
+        fields=['username','email','mobile','role']
+        widgets = {
+            'role': forms.Select(attrs={'class':'form-control'}),
+            'username': forms.TextInput(attrs={'class':'form-control'}),
+            'email': forms.TextInput(attrs={'class':'form-control'}),
+            'mobile': forms.TextInput(attrs={'class':'form-control'}),  
+              
+        }        
+        
+        
 class Userlogin(AuthenticationForm):
     username=forms.CharField(label='Username')
     password=forms.CharField(label='Password',widget=forms.PasswordInput())  
@@ -33,9 +69,10 @@ class Userlogin(AuthenticationForm):
 class Editprofile(forms.ModelForm):
     class Meta:
         model=User
-        fields=['first_name','last_name','username','email','mobile','company_name']    
+        fields=['first_name','last_name','username','email','mobile','company_name','gender']    
         
         widgets = {
+            'gender': forms.Select(attrs={'class':'form-control'}),
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
             'last_name': forms.TextInput(attrs={'class':'form-control'}),
             'username': forms.TextInput(attrs={'class':'form-control'}),

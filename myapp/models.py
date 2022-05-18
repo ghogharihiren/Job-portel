@@ -6,10 +6,12 @@ import datetime
 
 class User(AbstractUser):
     gender= (('male','Male'), ('female','Female'))
+    role= (('hr','Hr'), ('admin','Admin'))
     email=models.EmailField(unique=True)
     gender=models.CharField(max_length=10,choices=gender,null=True,blank=True)
     mobile=models.CharField(max_length=15,null=True,blank=True)
     company_name=models.CharField(max_length=100,null=True,blank=True)
+    role=models.CharField(max_length=10,choices=role)
 
   
     

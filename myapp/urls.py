@@ -5,6 +5,13 @@ from .import views
 urlpatterns = [
     path('',views.index,name='index'),
     path('register/',views.user_register,name='register'),
+    path('hr-list',views.hr_list,name='hr-list'),
+    path('edit-hr<int:pk>',views.edit_hr,name='edit-hr'),
+    path('delete-hr<int:pk>',views.delete_hr,name='delete-hr'),
+    
+    
+    
+    
     path('login/',views.user_login,name='login'),
     path('logout/',views.user_logout,name='logout'),
     path('profile/',views.edit_profile,name='profile'),
@@ -20,7 +27,7 @@ urlpatterns = [
 #--------------------------------Jobseekers-----------------------------------------------------------------   
     path('jobs/<str:id>',views.jobs,name='jobs'),
     path('view-job/<int:pk>',views.view_job,name='view-job'),
-    path('company-list',views.company_list,name='company-list')
+    path('company-list',views.company_list,name='company-list'),
    
     
     

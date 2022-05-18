@@ -9,18 +9,73 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request,'index.html')
 
-
+@login_required(login_url='/hr/login/')
 def user_register(request):
-    form=RegisterForm()
-    if request.method == "POST":
-        form1=RegisterForm(request.POST)
-        if form1.is_valid():
-            form1.save()
-            messages.success(request,'your account created')
-            return redirect('login')
-        messages.info(request,'Enate the valid data')
-        return render(request,'hr/register.html',{'form':form})
-    return render(request,'hr/register.html',{'form':form})
+    if request.user.role == 'admin':
+        form=RegisterForm()
+        if request.method == "POST":
+            form1=RegisterForm(request.POST)
+            if form1.is_valid():
+                form1.save()
+                messages.success(request,'your account created')
+                return redirect('login')
+            messages.info(request,'Enate the valid data')
+            return render(request,'admin/register.html',{'form':form})
+        return render(request,'admin/register.html',{'form':form})
+    return render(request,'index.html')
+
+
+@login_required(login_url='/hr/login/')
+def hr_list(request):
+    if request.user.role == 'admin':
+        user=User.objects.filter(role='hr')
+        return render(request,'admin/hr-list.html',{'user':user})
+    return render(request,'index.html')
+    
+
+
+@login_required(login_url='/hr/login/')
+def edit_hr(request,pk):
+    if request.user.role == 'admin':
+        user=User.objects.get(id=pk)
+        form=EditHrForm(instance=user)
+        if request.method == "POST":
+            form1=EditHrForm(request.POST,instance=user)
+            if form1.is_valid():
+                form1.save()
+                messages.success(request,'HR profile update')
+                return redirect('hr-list')
+            else:
+                messages.info(request,'Enter the valid data')
+                return render(request,'admin/edit-hr.html',{'form':form})      
+        return render(request,'admin/edit-hr.html',{'form':form})
+    return render(request,'index.html')
+
+
+@login_required(login_url='/hr/login/')
+def delete_hr(request,pk):
+    if request.user.role == 'admin':
+        user=User.objects.get(id=pk)
+        user.delete()
+        return redirect('hr-list')
+    return render(request,'index.html')
+    
+    
+    
+#----------------------------------------------HR--------------------------------------
+
+
+# def user_register(request):
+#         form=RegisterForm()
+#         if request.method == "POST":
+#             form1=RegisterForm(request.POST)
+#             if form1.is_valid():
+#                 form1.save()
+#                 messages.success(request,'your account created')
+#                 return redirect('login')
+#             messages.info(request,'Enate the valid data')
+#             return render(request,'register.html',{'form':form})
+#         return render(request,'register.html',{'form':form})
 
 def user_login(request):
     if request.user.is_authenticated:
@@ -56,7 +111,7 @@ def edit_profile(request):
         if form1.is_valid():
             form1.save()
             messages.success(request,'update your profile')
-            return redirect('index')
+            return redirect('profile')
         messages.info(request,'Enter the valid data')
         return render(request,'hr/profile.html',{'form':form})     
     return render(request,'hr/profile.html',{'form':form})    
@@ -107,6 +162,26 @@ def edit_post(request,pk):
             return render(request,'hr/edit-post.html',{'form':form})        
     return render(request,'hr/edit-post.html',{'form':form})
 
+
+@login_required(login_url='/hr/login/')
+def job_application(request):
+    app=Application.objects.all()
+    return render(request,'hr/job-application.html',{'app':app})   
+
+  
+@login_required(login_url='/hr/login/')
+def view_application(request,pk):
+    app=Application.objects.get(id=pk)
+    return render(request,'hr/view-application.html',{'app':app})     
+
+
+@login_required(login_url='/hr/login/')
+def delete_application(request,pk):
+    app=Application.objects.get(id=pk)
+    app.delete()
+    return redirect('job-application')
+
+#-----------------------------------------------------------job-seeker----------------------------------
 
 def jobs(request,id):
     if id =='1':
@@ -159,21 +234,3 @@ def company_list(request):
     user=JobPost.objects.all()
     return render(request,'user/company-list.html',{'user':user}) 
 
-
-@login_required(login_url='/hr/login/')
-def job_application(request):
-    app=Application.objects.all()
-    return render(request,'hr/job-application.html',{'app':app})   
-
-  
-@login_required(login_url='/hr/login/')
-def view_application(request,pk):
-    app=Application.objects.get(id=pk)
-    return render(request,'hr/view-application.html',{'app':app})     
-
-
-@login_required(login_url='/hr/login/')
-def delete_application(request,pk):
-    app=Application.objects.get(id=pk)
-    app.delete()
-    return redirect('job-application')
