@@ -9,16 +9,22 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
+
 def index(request):
     return render(request,'index.html')
 
 @login_required(login_url='/login/')
 def user_register(request):
-    if request.user.role == 'admin':
+    if request.user.role != 'hr':
         form=RegisterForm()
         if request.method == "POST":
             form1=RegisterForm(request.POST)
             if form1.is_valid():
+                message = f"""Hello your username is {form1.cleaned_data['username']},
+                and Your password is {form1.cleaned_data['password1']} plase change your password """
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [form1.cleaned_data['email'],]
+                send_mail( "your login details", message, email_from, recipient_list ) 
                 form1.save()
                 messages.success(request,'your account created')
                 return redirect('hr-list')
@@ -101,24 +107,41 @@ def user_login(request):
 
 def forgot_password(request):    
     if request.method =="POST":
-       try:
-        user=User.objects.get(email=request.POST['email'])
-        password = ''.join(random.choices('qwyertovghlk34579385',k=9))
-        subject="Rest Password"
-        message = f"""Hello {user.username},Your New password is {password}"""
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [request.POST['email'],]
-        send_mail( subject, message, email_from, recipient_list )
-        user.password=make_password(password)
-        user.save()
-        messages.success(request,'New password send in your email')
-        return redirect('login')
-       except:
-           messages.info(request,'Enter the valid email addres')
-           return render(request,'hr/forgot-password.html')   
+        try:
+            user=User.objects.get(email=request.POST['email'])
+            password = ''.join(random.choices('qwyertovghlk34579385',k=9))
+            subject="Rest Password"
+            message = f"""Hello {user.username},Your New password is {password}"""
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.POST['email'],]
+            send_mail( subject, message, email_from, recipient_list )
+            user.password=make_password(password)
+            user.save()
+            messages.success(request,'New password send in your email')
+            return redirect('login')
+        except:
+            messages.info(request,'Enter the valid email addres')
+            return render(request,'hr/forgot-password.html')   
            
     return render(request,'hr/forgot-password.html')   
-            
+
+
+@login_required(login_url='/login/')
+def change_password(request):
+    password=ChangePassword(user=request.user)
+    if request.method == "POST":
+        password1=ChangePassword(data=request.POST,user=request.user)
+        if password1.is_valid():
+            update_session_auth_hash(request,password1.user)
+            password1.save()
+            messages.success(request,'Your password has been change')
+            return redirect('login')
+        else:
+            print(password1.errors)
+            messages.info(request,'Enter the correct password') 
+            return render(request,'hr/change-password.html',{'pass':password})      
+    return render(request,'hr/change-password.html',{'pass':password})      
+        
 
 
 @login_required(login_url='/login/')

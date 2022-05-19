@@ -19,6 +19,7 @@ urlpatterns = [
     path('application/<int:pk>',views.application,name='application'),
     path('view-application/<int:pk>',views.view_application,name='view-application'),
     path('delete-application/<int:pk>',views.delete_application,name='delete-application'),
+    path('change-password/',views.change_password,name='change-password'),
     
     
 #--------------------------------Jobseekers-----------------------------------------------------------------   

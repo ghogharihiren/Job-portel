@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,PasswordChangeForm
 from .models import*
 
 
@@ -63,6 +63,16 @@ class Userlogin(AuthenticationForm):
     username=forms.CharField(label='Username')
     password=forms.CharField(label='Password',widget=forms.PasswordInput())  
     
+class ChangePassword(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'align':'center'}),
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'align':'center'}),    
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password', 'align':'center'}),    
+    )
 class Editprofile(forms.ModelForm):
     class Meta:
         model=User
@@ -79,6 +89,7 @@ class Editprofile(forms.ModelForm):
             
                 
         }
+ 
         
 class AddpostForm(forms.ModelForm):
     class Meta:

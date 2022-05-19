@@ -15,8 +15,8 @@
 <table class="table align-middle mb-0 bg-white">
     <thead class="bg-light">
       <tr>
+        <th>Category</th>
         <th>Position</th>
-        <th>Time</th>
         <th>Vacancy</th>
         <th>Salary</th>
         <th>EDIT</th>
@@ -30,14 +30,14 @@
         {% for post in post %}
       <tr>
         <td>
+          <p class="text-muted mb-0">{{post.categories}}</p>
+        </td>
+        <td>
           <div class="d-flex align-items-center">
             <div class="ms-3">
               <p class="text-muted mb-0">{{post.position}}</p>
             </div>
           </div>
-        </td>
-        <td>
-          <p class="text-muted mb-0">{{post.type}}</p>
         </td>
         <td>
             <p class="text-muted mb-0">{{post.slot}}</p>
